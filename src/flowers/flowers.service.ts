@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateFlowerDto } from './flowers.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FlowersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
+
    findAll() {
     return this.prisma.flower.findMany();
   }
