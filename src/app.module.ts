@@ -5,6 +5,10 @@ import { MicroserviceModule } from './microservice/microservice.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
+import { FlowersGqlModule } from './flowers-gql/flowers-gql.module';
 
 @Module({
   imports: [
@@ -23,6 +27,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         }
       },
     ]),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+    }),
+    FlowersGqlModule,
 ],
   controllers: [AppController],
   providers: [AppService],
